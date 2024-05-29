@@ -5,6 +5,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
+        System.out.println("ESERCIZIO 1");
+
         List<Product> products = new ArrayList<>();
 
         products.add(new Product(1L, "Harry Potter", "Books", 80.00));
@@ -21,6 +23,8 @@ public class Main {
         List<Product> filteredListBooks = getBooksPriceOver100(products, 100);
         filteredListBooks.forEach(System.out::println);
 
+        System.out.println("ESERCIZIO 2");
+
         Costumer costumer1 = new Costumer(1L, "Luca", 1);
         Costumer costumer2 = new Costumer(2L, "Pippo", 2);
         Costumer costumer3 = new Costumer(3L, "Checco", 2);
@@ -33,6 +37,11 @@ public class Main {
 
         List<Order> filteredListOrders = getOrdersBabyProducts(orders);
         filteredListOrders.forEach(System.out::println);
+
+        System.out.println("ESERCIZIO 3");
+
+        List<Product> filteredListBoys = getProductsBoysDiscount(products);
+        filteredListBoys.forEach(System.out::println);
     }
 
     public static List<Product> getBooksPriceOver100(List<Product> products, double price) {
@@ -45,6 +54,7 @@ public class Main {
 
     public static List<Product> getProductsBoysDiscount(List<Product> products) {
         double discount = 1 - 10 / 100.00;
+
         return products.stream().filter(product -> product.getCategory().equals("Boys")).map(product -> {
             product.setPrice(product.getPrice() * discount);
             return product;
