@@ -32,8 +32,8 @@ public class Main {
         List<Order> orders = new ArrayList<>();
 
         orders.add(new Order(1L, "Delivering", LocalDate.now().minusDays(2), LocalDate.now().plusDays(1), List.of(products.get(2), products.get(3)), costumer1));
-        orders.add(new Order(2L, "Shipped", LocalDate.now(), LocalDate.now().plusDays(3), List.of(products.get(6), products.get(9)), costumer2));
-        orders.add(new Order(3L, "Delivering", LocalDate.now().minusDays(1), LocalDate.now().plusDays(3), List.of(products.get(0), products.get(5)), costumer3));
+        orders.add(new Order(2L, "Shipped", LocalDate.now(), LocalDate.now().plusDays(1), List.of(products.get(6), products.get(9)), costumer2));
+        orders.add(new Order(3L, "Delivering", LocalDate.now().minusDays(1), LocalDate.now().plusDays(1), List.of(products.get(0), products.get(5)), costumer3));
 
         List<Order> filteredListOrders = getOrdersBabyProducts(orders);
         filteredListOrders.forEach(System.out::println);
@@ -42,10 +42,14 @@ public class Main {
 
         List<Product> filteredListBoys = getProductsBoysDiscount(products);
         filteredListBoys.forEach(System.out::println);
+
+        System.out.println("ESERCIZIO 4");
+        List<Product> orderedProduct = getOrdersTier2(orders);
+        orderedProduct.forEach(System.out::println);
     }
 
     public static List<Product> getBooksPriceOver100(List<Product> products, double price) {
-        return products.stream().filter(product -> product.getCategory().equals("Books")).filter(product -> product.getPrice() > price).toList();
+        return products.stream().filter(product -> product.getCategory().equals("Books") && product.getPrice() > price).toList();
     }
 
     public static List<Order> getOrdersBabyProducts(List<Order> orders) {
@@ -59,5 +63,12 @@ public class Main {
             product.setPrice(product.getPrice() * discount);
             return product;
         }).toList();
+    }
+
+    public static List<Product> getOrdersTier2(List<Order> orders) {
+        return orders.stream()
+                .filter(order -> order.getCostumer().getTier() == 2 && order.getOrderDate().isAfter(LocalDate.parse("2024-05-01")) && order.getDeliveryDate().isBefore(LocalDate.parse("2024-05-31")))
+                .flatMap(order -> order.getProducts().stream())
+                .toList();
     }
 }
